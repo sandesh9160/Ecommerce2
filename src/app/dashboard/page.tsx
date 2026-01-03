@@ -336,10 +336,6 @@ function DashboardPage() {
         className="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg z-40 lg:hidden"
       >
         <div className="flex flex-col h-full bg-white">
-          {/* Debug: Force visible content */}
-          <div className="p-2 bg-blue-100 text-xs text-center border-b">
-            SIDEBAR LOADED - USER: {user ? 'YES' : 'NO'}
-          </div>
 
           {/* Sidebar Header */}
           <div className="p-6 border-b bg-gray-50">

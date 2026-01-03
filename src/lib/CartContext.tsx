@@ -29,23 +29,33 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Mark as client-side to prevent hydration mismatch
   useEffect(() => {
-    const savedCart = localStorage.getItem('yuvakart-cart');
-    if (savedCart) {
-      try {
-        setItems(JSON.parse(savedCart));
-      } catch (error) {
-        console.error('Failed to parse cart from localStorage:', error);
-      }
-    }
+    setIsClient(true);
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Load cart from localStorage on mount (client-side only)
   useEffect(() => {
-    localStorage.setItem('yuvakart-cart', JSON.stringify(items));
-  }, [items]);
+    if (isClient) {
+      const savedCart = localStorage.getItem('yuvakart-cart');
+      if (savedCart) {
+        try {
+          setItems(JSON.parse(savedCart));
+        } catch (error) {
+          console.error('Failed to parse cart from localStorage:', error);
+        }
+      }
+    }
+  }, [isClient]);
+
+  // Save cart to localStorage whenever it changes (client-side only)
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('yuvakart-cart', JSON.stringify(items));
+    }
+  }, [items, isClient]);
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setItems(prevItems => {
