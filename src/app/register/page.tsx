@@ -81,7 +81,7 @@ export default function RegisterPage() {
         username: formData.email, // Use email as username
         email: formData.email,
         first_name: formData.name.split(' ')[0],
-        last_name: ' '.join(formData.name.split(' ').slice(1)),
+        last_name: formData.name.split(' ').slice(1).join(' '),
         phone: formData.phone,
         password: formData.password,
         password_confirm: formData.confirmPassword,

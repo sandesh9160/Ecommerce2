@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -46,7 +47,7 @@ interface ShipmentForm {
   shipment_notes: string;
 }
 
-export default function CreateShipmentPage() {
+function CreateShipmentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get('order');
@@ -164,9 +165,9 @@ export default function CreateShipmentPage() {
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           className="rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"
         />
-      </div>
-    );
-  }
+    </div>
+  );
+}
 
   if (!order) {
     return (
@@ -486,3 +487,8 @@ export default function CreateShipmentPage() {
     </div>
   );
 }
+
+// Export with SSR disabled to prevent hydration errors with useSearchParams
+export default dynamic(() => Promise.resolve(CreateShipmentPage), {
+  ssr: false,
+});
