@@ -72,6 +72,7 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState('dashboard');
 
   useEffect(() => {
     checkAuthAndLoadData();
@@ -147,8 +148,6 @@ export default function AdminDashboardPage() {
       </div>
     );
   }
-
-  const [activeSection, setActiveSection] = useState('dashboard');
 
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
