@@ -138,11 +138,51 @@ export class ApiService {
       return cachedData;
     }
 
-    const response = await fetch(`${API_BASE_URL}/categories/`);
-    if (!response.ok) throw new Error('Failed to fetch categories');
-    const data = await response.json();
-    this.setCachedData(cacheKey, data);
-    return data;
+    try {
+      const response = await fetch(`${API_BASE_URL}/categories/`);
+      if (!response.ok) throw new Error('Failed to fetch categories');
+      const data = await response.json();
+      this.setCachedData(cacheKey, data);
+      return data;
+    } catch (error) {
+      // Return dummy data for demo
+      const dummyCategories: Category[] = [
+        {
+          id: 1,
+          name: 'Electronics',
+          description: 'Latest smartphones, laptops, and gadgets',
+          image: '/api/placeholder/300/200',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 2,
+          name: 'Books',
+          description: 'Educational and entertainment books',
+          image: '/api/placeholder/300/200',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 3,
+          name: 'Fashion',
+          description: 'Clothing and accessories for all ages',
+          image: '/api/placeholder/300/200',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 4,
+          name: 'Home & Kitchen',
+          description: 'Everything for your home and kitchen',
+          image: '/api/placeholder/300/200',
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }
+      ];
+      this.setCachedData(cacheKey, dummyCategories);
+      return dummyCategories;
+    }
   }
 
   static async getProducts(categoryId?: number): Promise<Product[]> {
@@ -152,20 +192,199 @@ export class ApiService {
       return cachedData;
     }
 
-    const url = categoryId
-      ? `${API_BASE_URL}/products/?category=${categoryId}`
-      : `${API_BASE_URL}/products/`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch products');
-    const data = await response.json();
-    this.setCachedData(cacheKey, data);
-    return data;
+    try {
+      const url = categoryId
+        ? `${API_BASE_URL}/products/?category=${categoryId}`
+        : `${API_BASE_URL}/products/`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Failed to fetch products');
+      const data = await response.json();
+      this.setCachedData(cacheKey, data);
+      return data;
+    } catch (error) {
+      // Return dummy products for demo
+      const dummyProducts: Product[] = [
+        {
+          id: 1,
+          name: 'Samsung Galaxy M14 5G',
+          description: 'Latest smartphone with 5G connectivity and amazing camera',
+          price: 14999,
+          image: '/api/placeholder/300/300',
+          category: 1,
+          category_name: 'Electronics',
+          stock: 50,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 2,
+          name: 'Dell Inspiron Laptop',
+          description: 'Powerful laptop for work and entertainment',
+          price: 45999,
+          image: '/api/placeholder/300/300',
+          category: 1,
+          category_name: 'Electronics',
+          stock: 25,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 3,
+          name: 'Python Programming Book',
+          description: 'Learn Python programming from basics to advanced',
+          price: 599,
+          image: '/api/placeholder/300/300',
+          category: 2,
+          category_name: 'Books',
+          stock: 100,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 4,
+          name: 'Cotton T-Shirt',
+          description: 'Comfortable cotton t-shirt for everyday wear',
+          price: 299,
+          image: '/api/placeholder/300/300',
+          category: 3,
+          category_name: 'Fashion',
+          stock: 200,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 5,
+          name: 'Stainless Steel Water Bottle',
+          description: 'Insulated water bottle keeps drinks cold for 24 hours',
+          price: 399,
+          image: '/api/placeholder/300/300',
+          category: 4,
+          category_name: 'Home & Kitchen',
+          stock: 75,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 6,
+          name: 'Wireless Bluetooth Headphones',
+          description: 'High-quality sound with noise cancellation',
+          price: 2499,
+          image: '/api/placeholder/300/300',
+          category: 1,
+          category_name: 'Electronics',
+          stock: 40,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 7,
+          name: 'JavaScript Guide Book',
+          description: 'Complete guide to modern JavaScript development',
+          price: 799,
+          image: '/api/placeholder/300/300',
+          category: 2,
+          category_name: 'Books',
+          stock: 80,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 8,
+          name: 'Non-Stick Cookware Set',
+          description: 'Complete kitchen set with 5 pieces',
+          price: 1999,
+          image: '/api/placeholder/300/300',
+          category: 4,
+          category_name: 'Home & Kitchen',
+          stock: 30,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }
+      ];
+
+      // Filter by category if specified
+      const filteredProducts = categoryId
+        ? dummyProducts.filter(p => p.category === categoryId)
+        : dummyProducts;
+
+      this.setCachedData(cacheKey, filteredProducts);
+      return filteredProducts;
+    }
   }
 
   static async getProduct(id: number): Promise<Product> {
-    const response = await fetch(`${API_BASE_URL}/products/${id}/`);
-    if (!response.ok) throw new Error('Failed to fetch product');
-    return response.json();
+    try {
+      const response = await fetch(`${API_BASE_URL}/products/${id}/`);
+      if (!response.ok) throw new Error('Failed to fetch product');
+      return response.json();
+    } catch (error) {
+      // Return dummy product for demo
+      const dummyProducts = [
+        {
+          id: 1,
+          name: 'Samsung Galaxy M14 5G',
+          description: 'Latest smartphone with 5G connectivity and amazing camera',
+          price: 14999,
+          image: '/api/placeholder/300/300',
+          category: 1,
+          category_name: 'Electronics',
+          stock: 50,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 2,
+          name: 'Dell Inspiron Laptop',
+          description: 'Powerful laptop for work and entertainment',
+          price: 45999,
+          image: '/api/placeholder/300/300',
+          category: 1,
+          category_name: 'Electronics',
+          stock: 25,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        },
+        {
+          id: 3,
+          name: 'Python Programming Book',
+          description: 'Learn Python programming from basics to advanced',
+          price: 599,
+          image: '/api/placeholder/300/300',
+          category: 2,
+          category_name: 'Books',
+          stock: 100,
+          is_active: true,
+          is_in_stock: true,
+          created_at: '2024-01-01T00:00:00Z',
+          updated_at: '2024-01-01T00:00:00Z'
+        }
+      ];
+      const product = dummyProducts.find(p => p.id === id);
+      if (product) {
+        return product;
+      }
+      throw new Error('Product not found');
+    }
   }
 
   static async createOrder(orderData: {
