@@ -99,34 +99,90 @@ export default function AdminDashboardPage() {
       setLoading(true);
       setError(null);
 
-      // Use optimized dashboard stats endpoint
-      const dashboardData = await ApiService.getAdminDashboardStats();
+      // Load mock dashboard stats for demo
+      const mockStats = {
+        total_orders: 47,
+        pending_payments: 12,
+        verified_payments: 35,
+        total_products: 8,
+        low_stock_products: 2,
+        total_revenue: 125000,
+        recent_orders: [
+          {
+            id: 1001,
+            customer_name: 'Rajesh Kumar',
+            customer_phone: '+91 9876543210',
+            customer_email: 'rajesh@example.com',
+            shipping_address: '123 Main Street, Village Name, District, State - 123456',
+            total_amount: 1250,
+            shipping_charge: 50,
+            order_status: 'payment_verified',
+            payment_status: 'verified',
+            created_at: '2024-01-15T10:30:00Z',
+            items: [
+              { id: 1, product_name: 'Samsung Mobile Phone', quantity: 1, price: 1200, total: 1200 }
+            ]
+          },
+          {
+            id: 1002,
+            customer_name: 'Priya Sharma',
+            customer_phone: '+91 9876543211',
+            customer_email: 'priya@example.com',
+            shipping_address: '456 Secondary Road, Another Village, District, State - 123457',
+            total_amount: 850,
+            shipping_charge: 50,
+            order_status: 'pending_payment',
+            payment_status: 'pending',
+            created_at: '2024-01-14T14:20:00Z',
+            items: [
+              { id: 2, product_name: 'Python Programming Book', quantity: 1, price: 800, total: 800 }
+            ]
+          },
+          {
+            id: 1003,
+            customer_name: 'Amit Singh',
+            customer_phone: '+91 9876543212',
+            customer_email: 'amit@example.com',
+            shipping_address: '789 Third Lane, Third Village, District, State - 123458',
+            total_amount: 650,
+            shipping_charge: 50,
+            order_status: 'payment_verified',
+            payment_status: 'verified',
+            created_at: '2024-01-13T09:15:00Z',
+            items: [
+              { id: 3, product_name: 'Cotton T-Shirt', quantity: 1, price: 600, total: 600 }
+            ]
+          }
+        ]
+      };
 
       // Transform the data to match expected format
       setStats({
-        total_orders: dashboardData.total_orders,
-        pending_payments: dashboardData.pending_payments,
-        verified_payments: dashboardData.verified_payments,
-        total_products: dashboardData.total_products,
-        low_stock_products: dashboardData.low_stock_products,
-        total_revenue: parseFloat(dashboardData.total_revenue),
-        recent_orders: dashboardData.recent_orders.map((order: any) => ({
+        total_orders: mockStats.total_orders,
+        pending_payments: mockStats.pending_payments,
+        verified_payments: mockStats.verified_payments,
+        total_products: mockStats.total_products,
+        low_stock_products: mockStats.low_stock_products,
+        total_revenue: parseFloat(mockStats.total_revenue.toString()),
+        recent_orders: mockStats.recent_orders.map((order: any) => ({
           id: order.id,
           customer_name: order.customer_name,
+          customer_phone: order.customer_phone,
+          customer_email: order.customer_email,
+          shipping_address: order.shipping_address,
           total_amount: parseFloat(order.total_amount),
+          shipping_charge: order.shipping_charge,
+          order_status: order.order_status,
           payment_status: order.payment_status,
-          created_at: order.created_at
+          created_at: order.created_at,
+          updated_at: order.created_at,
+          items: order.items
         }))
       });
 
     } catch (err: any) {
       console.error('Error loading dashboard:', err);
-      // If unauthorized, redirect might be handled by ApiService or here
-      if (err.message && (err.message.includes('401') || err.message.includes('403'))) {
-        router.push('/admin-login');
-      } else {
-        setError('Failed to load dashboard data. Please try again.');
-      }
+      setError('Failed to load dashboard data. Please try again.');
     } finally {
       setLoading(false);
     }
